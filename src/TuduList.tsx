@@ -1,61 +1,88 @@
-import React from "react";
+import React, {ChangeEvent, KeyboardEvent, ChangeEventHandler, useState} from "react";
 import {FilterValueType} from "./App";
 
 type TuduListPropsType = {
-    title: string
-    title2?: boolean
-    tasks1: Array<tasks1PropsType>
-    removeTasks: (id: number) => void
-    changeFilter: (value: FilterValueType) => void
+   title: string
+   title2?: boolean
+   tasks1: Array<tasks1PropsType>
+   removeTasks: (id: string) => void
+   changeFilter: (value: FilterValueType) => void
+   addTask: (title: string) => void
 }
 export type tasks1PropsType = {
-    id: number,
-    title: string,
-    isDone: boolean
+   id: string,
+   title: string,
+   isDone: boolean
 }
 
 export function TuduList(props: TuduListPropsType) {
-    return (
+   const [newTaskTitle, setNewTaskTitle] = useState(``)
+   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+      setNewTaskTitle(e.currentTarget.value)
+   }
+   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+      if (e.charCode === 13) {
+         props.addTask(newTaskTitle)
+         setNewTaskTitle(``)
+      }
+   }
+   const addTask = () => {
+      props.addTask(newTaskTitle)
+      setNewTaskTitle(``)
+   }
+   const filterAll = () => {
+      props.changeFilter(`all`)
+   }
+   const filterActive = () => {
+
+      props.changeFilter(`active`)
+
+   }
+   const filterCompleted = () => {
+
+      props.changeFilter(`completed`)
+
+   }
+   return (
+     <div>
+        <h3>{props.title}</h3>
+        <h3>{props.title2}</h3>
         <div>
-            <h3>{props.title}</h3>
-            <h3>{props.title2}</h3>
-            <div>
-                <input/>
-                <button>+</button>
-            </div>
-            <ul>
-                {/*MAP это метод массива который на основе каждого объекта в массиве создает*/}
-                {/*какой то другой элемент*/}
-                {/*на выходе мы получаем новый массив с этими новыми элементами*/}
-                {props.tasks1.map(el => {
-                    return (
-                        <li><input type="checkbox" checked={el.isDone}/>
-                            <span>{el.title}</span>
-                            <button onClick={() => {
-                                props.removeTasks(el.id)
-                            }}>x
-                            </button>
-                        </li>
-
-                    )
-                })}
-
-
-            </ul>
-            <div>
-                <button onClick={() => {
-                    props.changeFilter(`all`)
-                }}>All
-                </button>
-                <button onClick={() => {
-                    props.changeFilter(`active`)
-                }}>Active
-                </button>
-                <button onClick={() => {
-                    props.changeFilter(`completed`)
-                }}>Completed
-                </button>
-            </div>
+           <input
+             value={newTaskTitle}
+             onChange={onChangeHandler}
+             onKeyPress={onKeyPressHandler}/>
+           <button onClick={addTask}>+
+           </button>
         </div>
-    )
+        <ul>
+           {/*MAP это метод массива который на основе каждого объекта в массиве создает*/}
+           {/*какой то другой элемент*/}
+           {/*на выходе мы получаем новый массив с этими новыми элементами*/}
+           {props.tasks1.map(el => {
+              const onRemuveHandler = () => {
+
+                 props.removeTasks(el.id)
+
+              }
+              return (
+                <li key={el.id}>
+                   <input type="checkbox" checked={el.isDone}/>
+                   <span>{el.title}</span>
+                   <button onClick={onRemuveHandler}>x
+                   </button>
+                </li>
+
+              )
+           })}
+
+
+        </ul>
+        <div>
+           <button onClick={filterAll}>All</button>
+           <button onClick={filterActive}>Active</button>
+           <button onClick={filterCompleted}>Completed</button>
+        </div>
+     </div>
+   )
 }
