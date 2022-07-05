@@ -8,6 +8,9 @@ type TuduListPropsType = {
    removeTasks: (id: string) => void
    changeFilter: (value: FilterValueType) => void
    addTask: (title: string) => void
+   changeTaskStatus: (taskId: string, isDone: boolean) => void
+   filter: FilterValueType
+
 }
 export type tasks1PropsType = {
    id: string,
@@ -17,18 +20,30 @@ export type tasks1PropsType = {
 
 export function TuduList(props: TuduListPropsType) {
    const [newTaskTitle, setNewTaskTitle] = useState(``)
+   const [error, setError] = useState<string | null>(null)
+
    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
       setNewTaskTitle(e.currentTarget.value)
+
    }
    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.charCode === 13) {
          props.addTask(newTaskTitle)
          setNewTaskTitle(``)
+
       }
+      setError(null)
+
    }
    const addTask = () => {
-      props.addTask(newTaskTitle)
+      //trim отсекает пробелы
+      if (newTaskTitle.trim() === ``) {
+         setError("Field is required")
+         return;
+      }
+      props.addTask(newTaskTitle.trim())
       setNewTaskTitle(``)
+
    }
    const filterAll = () => {
       props.changeFilter(`all`)
@@ -51,23 +66,32 @@ export function TuduList(props: TuduListPropsType) {
            <input
              value={newTaskTitle}
              onChange={onChangeHandler}
-             onKeyPress={onKeyPressHandler}/>
+             onKeyPress={onKeyPressHandler}
+             className={error ? "error" : ""}
+           />
            <button onClick={addTask}>+
            </button>
-        </div>
+           {error && <div className="error-message">{error}</div>
+           }        </div>
         <ul>
            {/*MAP это метод массива который на основе каждого объекта в массиве создает*/}
            {/*какой то другой элемент*/}
            {/*на выходе мы получаем новый массив с этими новыми элементами*/}
            {props.tasks1.map(el => {
               const onRemuveHandler = () => {
-
                  props.removeTasks(el.id)
-
+              }
+              const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                 props.changeTaskStatus(el.id, e.currentTarget.checked)
+                 // console.log(el.id + `qwe` + e.currentTarget.checked)
               }
               return (
-                <li key={el.id}>
-                   <input type="checkbox" checked={el.isDone}/>
+                <li className={el.isDone ? "is-done" : ""} key={el.id}>
+                   <input
+                     type="checkbox"
+                     checked={el.isDone}
+                     onChange={onChangeHandler}
+                   />
                    <span>{el.title}</span>
                    <button onClick={onRemuveHandler}>x
                    </button>
@@ -79,9 +103,21 @@ export function TuduList(props: TuduListPropsType) {
 
         </ul>
         <div>
-           <button onClick={filterAll}>All</button>
-           <button onClick={filterActive}>Active</button>
-           <button onClick={filterCompleted}>Completed</button>
+           <button
+             className={props.filter === "all" ? "active-filter" : ""}
+             onClick={filterAll}
+           >All
+           </button>
+           <button
+             className={props.filter === "active" ? "active-filter" : ""}
+             onClick={filterActive}
+           >Active
+           </button>
+           <button
+             className={props.filter === "completed" ? "active-filter" : ""}
+             onClick={filterCompleted}
+           >Completed
+           </button>
         </div>
      </div>
    )

@@ -15,13 +15,25 @@ function App() {
       {id: v1(), title: "Redax", isDone: false}
    ]);
 
+   function changeTaskStatus(taskId: string, isDone: boolean) {
+      let task = tasks1.find((t) => t.id === taskId)
+      if (task) {
+         //
+         // console.log(task)
+         // console.log(isDone)
+         task.isDone = isDone
+      }
+
+      setTasks([...tasks1])
+   }
+
    function addTask(title: string) {
       let newTask = {id: v1(), title: title, isDone: false}
       let newTasks = [newTask, ...tasks1]
       setTasks(newTasks)
    }
 
-   console.log(tasks1)
+   // console.log(tasks1)
    let [filter, sestFilter] = useState<FilterValueType>(`all`)
 
    let taskForTodolist = tasks1;
@@ -49,6 +61,8 @@ function App() {
           removeTasks={removeTask}
           changeFilter={changeFilter}
           addTask={addTask}
+          changeTaskStatus={changeTaskStatus}
+          filter={filter}
         />
 
 
