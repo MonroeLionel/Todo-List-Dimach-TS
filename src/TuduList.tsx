@@ -5,12 +5,13 @@ type TuduListPropsType = {
    title: string
    title2?: boolean
    tasks1: Array<tasks1PropsType>
-   removeTasks: (id: string) => void
-   changeFilter: (value: FilterValueType) => void
-   addTask: (title: string) => void
-   changeTaskStatus: (taskId: string, isDone: boolean) => void
+   removeTasks: (id: string, todoListId: string) => void
+   changeFilter: (value: FilterValueType, todoListId: string) => void
+   addTask: (title: string, todoListId: string) => void
+   changeTaskStatus: (taskId: string, isDone: boolean, todoListId: string) => void
    filter: FilterValueType
-
+   tlID: string
+   removeTuduList: (todoListId: string) => void
 }
 export type tasks1PropsType = {
    id: string,
@@ -28,7 +29,7 @@ export function TuduList(props: TuduListPropsType) {
    }
    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.charCode === 13) {
-         props.addTask(newTaskTitle)
+         props.addTask(newTaskTitle, props.tlID)
          setNewTaskTitle(``)
 
       }
@@ -41,26 +42,32 @@ export function TuduList(props: TuduListPropsType) {
          setError("Field is required")
          return;
       }
-      props.addTask(newTaskTitle.trim())
+      props.addTask(newTaskTitle.trim(), props.tlID)
       setNewTaskTitle(``)
 
    }
    const filterAll = () => {
-      props.changeFilter(`all`)
+      props.changeFilter(`all`, props.tlID)
    }
    const filterActive = () => {
 
-      props.changeFilter(`active`)
+      props.changeFilter(`active`, props.tlID)
 
    }
    const filterCompleted = () => {
 
-      props.changeFilter(`completed`)
+      props.changeFilter(`completed`, props.tlID)
 
+   }
+
+   const removeTuduList = () => {
+      props.removeTuduList(props.tlID)
    }
    return (
      <div>
-        <h3>{props.title}</h3>
+        <h3>{props.title}
+           <button onClick={removeTuduList}>x</button>
+        </h3>
         <h3>{props.title2}</h3>
         <div>
            <input
@@ -79,10 +86,10 @@ export function TuduList(props: TuduListPropsType) {
            {/*на выходе мы получаем новый массив с этими новыми элементами*/}
            {props.tasks1.map(el => {
               const onRemuveHandler = () => {
-                 props.removeTasks(el.id)
+                 props.removeTasks(el.id, props.tlID)
               }
               const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                 props.changeTaskStatus(el.id, e.currentTarget.checked)
+                 props.changeTaskStatus(el.id, e.currentTarget.checked, props.tlID)
                  // console.log(el.id + `qwe` + e.currentTarget.checked)
               }
               return (
