@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {tasks1PropsType, TuduList} from "./TuduList";
 import {v1} from "uuid";
+import {AddItemForm} from "./AddIdemForm";
 
 
 export type FilterValueType = `all` | `completed` | `active`
@@ -9,6 +10,10 @@ type TodoListType = {
    id: string
    title: string
    filter: FilterValueType
+}
+
+type TaskStateType = {
+   [key: string]: Array<tasks1PropsType>
 }
 
 function App() {
@@ -68,7 +73,7 @@ function App() {
       {id: todoListId2, title: `What to buy`, filter: `completed`},
    ])
 
-   let [tasksObj, setTasks] = useState({
+   let [tasksObj, setTasks] = useState<TaskStateType>({
       [todoListId1]: [
          {id: v1(), title: "HTML&CSS", isDone: true},
          {id: v1(), title: "JS", isDone: true},
@@ -88,9 +93,38 @@ function App() {
       delete tasksObj[todoListId]
       setTasks({...tasksObj})
    }
+   const addTodoList = (title: string) => {
+      let newtodoList: TodoListType = {
+         id: v1(),
+         filter: 'all',
+         title: title
+      }
+      setTodoList([newtodoList, ...todoList])
+      setTasks({...tasksObj, [newtodoList.id]: []})
+   }
+   const changeTaskTitleHandler = (taskId: string, newValue: string, todoListId: string) => {
+      let task = tasksObj[todoListId].find((t) => t.id === taskId)
+      if (task) {
+         //
+         // console.log(task)
+         // console.log(isDone)
+         task.title = newValue
+         setTasks({...tasksObj})
 
+      }
+
+
+   }
+   const ChangeTuduListTitle = (newTitle: string, id: string) => {
+      const newtodoList = todoList.find(tl => tl.id === id)
+      if (newtodoList) {
+         newtodoList.title = newTitle
+         setTodoList([...todoList])
+      }
+   }
    return (
      <div className="App">
+        <AddItemForm addItem={addTodoList}/>
         {
            todoList.map((tl) => {
 
@@ -103,6 +137,8 @@ function App() {
               }
 
               return <TuduList
+                ChangeTuduListTitle={ChangeTuduListTitle}
+                changeTaskTitle={changeTaskTitleHandler}
                 removeTuduList={removeTuduList}
                 key={tl.id}
                 tlID={tl.id}

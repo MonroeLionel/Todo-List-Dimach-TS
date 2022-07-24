@@ -1,5 +1,7 @@
-import React, {ChangeEvent, KeyboardEvent, ChangeEventHandler, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {FilterValueType} from "./App";
+import {AddItemForm} from "./AddIdemForm";
+import {EditableSpan} from "./EditableSpan";
 
 type TuduListPropsType = {
    title: string
@@ -12,6 +14,8 @@ type TuduListPropsType = {
    filter: FilterValueType
    tlID: string
    removeTuduList: (todoListId: string) => void
+   changeTaskTitle: (taskId: string, newTitle: string, todoListId: string) => void
+   ChangeTuduListTitle: (newTitle: string, id: string) => void
 }
 export type tasks1PropsType = {
    id: string,
@@ -20,32 +24,6 @@ export type tasks1PropsType = {
 }
 
 export function TuduList(props: TuduListPropsType) {
-   const [newTaskTitle, setNewTaskTitle] = useState(``)
-   const [error, setError] = useState<string | null>(null)
-
-   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      setNewTaskTitle(e.currentTarget.value)
-
-   }
-   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-      if (e.charCode === 13) {
-         props.addTask(newTaskTitle, props.tlID)
-         setNewTaskTitle(``)
-
-      }
-      setError(null)
-
-   }
-   const addTask = () => {
-      //trim отсекает пробелы
-      if (newTaskTitle.trim() === ``) {
-         setError("Field is required")
-         return;
-      }
-      props.addTask(newTaskTitle.trim(), props.tlID)
-      setNewTaskTitle(``)
-
-   }
    const filterAll = () => {
       props.changeFilter(`all`, props.tlID)
    }
@@ -59,27 +37,25 @@ export function TuduList(props: TuduListPropsType) {
       props.changeFilter(`completed`, props.tlID)
 
    }
-
    const removeTuduList = () => {
       props.removeTuduList(props.tlID)
    }
+
+   const addTask = (title: string) => {
+      props.addTask(title, props.tlID)
+   }
+
+   const onChangeTuduListTitleHandler = (value: string) => {
+      props.ChangeTuduListTitle(value, props.tlID)
+   }
    return (
      <div>
-        <h3>{props.title}
+        <h3><EditableSpan title={props.title} onChange={onChangeTuduListTitleHandler}/>
+          
            <button onClick={removeTuduList}>x</button>
         </h3>
         <h3>{props.title2}</h3>
-        <div>
-           <input
-             value={newTaskTitle}
-             onChange={onChangeHandler}
-             onKeyPress={onKeyPressHandler}
-             className={error ? "error" : ""}
-           />
-           <button onClick={addTask}>+
-           </button>
-           {error && <div className="error-message">{error}</div>
-           }        </div>
+        <AddItemForm addItem={addTask}/>
         <ul>
            {/*MAP это метод массива который на основе каждого объекта в массиве создает*/}
            {/*какой то другой элемент*/}
@@ -92,6 +68,9 @@ export function TuduList(props: TuduListPropsType) {
                  props.changeTaskStatus(el.id, e.currentTarget.checked, props.tlID)
                  // console.log(el.id + `qwe` + e.currentTarget.checked)
               }
+              const onChangeTitleHandler = (newValue: string) => {
+                 props.changeTaskTitle(el.id, newValue, props.tlID)
+              }
               return (
                 <li className={el.isDone ? "is-done" : ""} key={el.id}>
                    <input
@@ -99,7 +78,10 @@ export function TuduList(props: TuduListPropsType) {
                      checked={el.isDone}
                      onChange={onChangeHandler}
                    />
-                   <span>{el.title}</span>
+                   <EditableSpan
+                     title={el.title}
+                     onChange={onChangeTitleHandler}
+                   />
                    <button onClick={onRemuveHandler}>x
                    </button>
                 </li>
@@ -129,3 +111,4 @@ export function TuduList(props: TuduListPropsType) {
      </div>
    )
 }
+
