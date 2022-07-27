@@ -2,6 +2,8 @@ import React, {ChangeEvent} from "react";
 import {FilterValueType} from "./App";
 import {AddItemForm} from "./AddIdemForm";
 import {EditableSpan} from "./EditableSpan";
+import {Button, Checkbox, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
 
 type TuduListPropsType = {
    title: string
@@ -51,8 +53,9 @@ export function TuduList(props: TuduListPropsType) {
    return (
      <div>
         <h3><EditableSpan title={props.title} onChange={onChangeTuduListTitleHandler}/>
-          
-           <button onClick={removeTuduList}>x</button>
+
+           {/*<button onClick={removeTuduList}>x</button>*/}
+           <IconButton onClick={removeTuduList}><Delete/></IconButton>
         </h3>
         <h3>{props.title2}</h3>
         <AddItemForm addItem={addTask}/>
@@ -72,9 +75,14 @@ export function TuduList(props: TuduListPropsType) {
                  props.changeTaskTitle(el.id, newValue, props.tlID)
               }
               return (
-                <li className={el.isDone ? "is-done" : ""} key={el.id}>
-                   <input
-                     type="checkbox"
+                <div className={el.isDone ? "is-done" : ""} key={el.id}>
+                   {/*<input*/}
+                   {/*  type="checkbox"*/}
+                   {/*  checked={el.isDone}*/}
+                   {/*  onChange={onChangeHandler}*/}
+                   {/*/>*/}
+                   <Checkbox
+
                      checked={el.isDone}
                      onChange={onChangeHandler}
                    />
@@ -82,9 +90,10 @@ export function TuduList(props: TuduListPropsType) {
                      title={el.title}
                      onChange={onChangeTitleHandler}
                    />
-                   <button onClick={onRemuveHandler}>x
-                   </button>
-                </li>
+                   {/*<button onClick={onRemuveHandler}>x*/}
+                   {/*</button>*/}
+                   <IconButton onClick={onRemuveHandler}><Delete/></IconButton>
+                </div>
 
               )
            })}
@@ -92,21 +101,37 @@ export function TuduList(props: TuduListPropsType) {
 
         </ul>
         <div>
-           <button
-             className={props.filter === "all" ? "active-filter" : ""}
-             onClick={filterAll}
+           {/*<button*/}
+           {/*  className={props.filter === "all" ? "active-filter" : ""}*/}
+           {/*  onClick={filterAll}*/}
+           {/*>All*/}
+           {/*</button>*/}
+           {/*<button*/}
+           {/*  className={props.filter === "active" ? "active-filter" : ""}*/}
+           {/*  onClick={filterActive}*/}
+           {/*>Active*/}
+           {/*</button>*/}
+           {/*<button*/}
+           {/*  className={props.filter === "completed" ? "active-filter" : ""}*/}
+           {/*  onClick={filterCompleted}*/}
+           {/*>Completed*/}
+           {/*</button>*/}
+
+           <Button variant={props.filter === "all" ? "contained" : "text"}
+                   onClick={filterAll}
            >All
-           </button>
-           <button
-             className={props.filter === "active" ? "active-filter" : ""}
-             onClick={filterActive}
+           </Button>
+           <Button variant={props.filter === "active" ? "contained" : "text"}
+                   color={"primary"}
+                   onClick={filterActive}
            >Active
-           </button>
-           <button
-             className={props.filter === "completed" ? "active-filter" : ""}
-             onClick={filterCompleted}
+           </Button>
+           <Button variant={props.filter === "completed" ? "contained" : "text"}
+                   color={"secondary"}
+
+                   onClick={filterCompleted}
            >Completed
-           </button>
+           </Button>
         </div>
      </div>
    )

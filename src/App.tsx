@@ -3,6 +3,8 @@ import './App.css';
 import {tasks1PropsType, TuduList} from "./TuduList";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddIdemForm";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
+import {Menu} from "@mui/icons-material";
 
 
 export type FilterValueType = `all` | `completed` | `active`
@@ -124,36 +126,54 @@ function App() {
    }
    return (
      <div className="App">
-        <AddItemForm addItem={addTodoList}/>
-        {
-           todoList.map((tl) => {
+        <AppBar position={"static"}>
+           <Toolbar>
+              <IconButton edge={"start"} color={"inherit"} aria-label={"menu"}> <Menu/></IconButton>
+              <Typography variant={"h6"}>
+                 News
+              </Typography>
+              <Button color={"inherit"}>Login</Button>
+           </Toolbar>
 
-              let taskForTodolist = tasksObj[tl.id];
-              if (tl.filter === `completed`) {
-                 taskForTodolist = tasksObj[tl.id].filter(el => el.isDone === true)
+        </AppBar>
+        <Container fixed>
+           <Grid container style={{padding: "10px"}}>
+              <AddItemForm addItem={addTodoList}/>
+           </Grid>
+           <Grid container spacing={3}>
+              {
+                 todoList.map((tl) => {
+
+                    let taskForTodolist = tasksObj[tl.id];
+                    if (tl.filter === `completed`) {
+                       taskForTodolist = tasksObj[tl.id].filter(el => el.isDone === true)
+                    }
+                    if (tl.filter === `active`) {
+                       taskForTodolist = tasksObj[tl.id].filter(el => el.isDone === false)
+                    }
+
+                    return <Grid item>
+                       <Paper style={{padding: "10px"}}>
+                          <TuduList
+                            ChangeTuduListTitle={ChangeTuduListTitle}
+                            changeTaskTitle={changeTaskTitleHandler}
+                            removeTuduList={removeTuduList}
+                            key={tl.id}
+                            tlID={tl.id}
+                            title={tl.title}
+                            tasks1={taskForTodolist}
+                            removeTasks={removeTask}
+                            changeFilter={changeFilter}
+                            addTask={addTask}
+                            changeTaskStatus={changeTaskStatus}
+                            filter={tl.filter}
+                          />
+                       </Paper>
+                    </Grid>
+                 })
               }
-              if (tl.filter === `active`) {
-                 taskForTodolist = tasksObj[tl.id].filter(el => el.isDone === false)
-              }
-
-              return <TuduList
-                ChangeTuduListTitle={ChangeTuduListTitle}
-                changeTaskTitle={changeTaskTitleHandler}
-                removeTuduList={removeTuduList}
-                key={tl.id}
-                tlID={tl.id}
-                title={tl.title}
-                tasks1={taskForTodolist}
-                removeTasks={removeTask}
-                changeFilter={changeFilter}
-                addTask={addTask}
-                changeTaskStatus={changeTaskStatus}
-                filter={tl.filter}
-              />
-           })
-        }
-
-
+           </Grid>
+        </Container>
      </div>
    );
 }
