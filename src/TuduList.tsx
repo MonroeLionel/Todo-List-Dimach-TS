@@ -5,7 +5,7 @@ import {EditableSpan} from "./EditableSpan";
 import {Button, Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 
-type TuduListPropsType = {
+export type TuduListPropsType = {
    title: string
    title2?: boolean
    tasks1: Array<tasks1PropsType>
