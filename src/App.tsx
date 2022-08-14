@@ -14,7 +14,7 @@ export type TodoListType = {
    filter: FilterValueType
 }
 
-type TaskStateType = {
+export type TaskStateType = {
    [key: string]: Array<tasks1PropsType>
 }
 
@@ -58,7 +58,7 @@ function App() {
       setTasks({...tasksObj});
    }
 
-   function changeFilter(value: FilterValueType, todoListId: string) {
+   function changeFilterTask(value: FilterValueType, todoListId: string) {
       let tdList = todoList.find(tl => tl.id === todoListId)
       if (tdList) {
          tdList.filter = value
@@ -163,7 +163,7 @@ function App() {
                             title={tl.title}
                             tasks1={taskForTodolist}
                             removeTasks={removeTask}
-                            changeFilter={changeFilter}
+                            changeFilter={changeFilterTask}
                             addTask={addTask}
                             changeTaskStatus={changeTaskStatus}
                             filter={tl.filter}
