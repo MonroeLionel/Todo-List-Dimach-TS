@@ -1,6 +1,6 @@
 import {TaskStateType} from "../App";
 import {v1} from "uuid";
-import {AddTodolistActionType, RemoveTodolistActionType} from "./todolist-reducer";
+import {AddTodolistActionType, RemoveTodolistActionType, todoListId1, todoListId2} from "./todolist-reducer";
 
 export type RemoveTaskActionType = {
    type: "REMOVE-TASK"
@@ -32,15 +32,10 @@ type ActionType =
   | changeTaskTitleActionType
   | AddTodolistActionType
   | RemoveTodolistActionType
-// let task = tasksObj[todoListId].find((t) => t.id === taskId)
-// if (task) {
-//    //
-//    // console.log(task)
-//    // console.log(isDone)
-//    task.isDone = isDone
-//    setTasks({...tasksObj})
 
-export const tasksReducer = (state: TaskStateType, action: ActionType): TaskStateType => {
+const initialState: TaskStateType = {}
+
+export const tasksReducer = (state: TaskStateType = initialState, action: ActionType): TaskStateType => {
    switch (action.type) {
       case "REMOVE-TASK": {
          const stateCopy = {...state}
@@ -86,7 +81,7 @@ export const tasksReducer = (state: TaskStateType, action: ActionType): TaskStat
          return stateCopy
       }
       default:
-         throw new Error("ошибоька")
+         return state
    }
 }
 
