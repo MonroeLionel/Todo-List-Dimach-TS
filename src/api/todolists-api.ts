@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 const settings = {
 
    withCredentials: true,
@@ -31,12 +32,28 @@ type TasksReasponse = {
    totalCount: number
    items: TaskType[]
 }
-type TaskType = {
+
+export enum TaskStatuses {
+   New = 0,
+   InProgress = 1,
+   Completed = 2,
+   Draft = 3
+}
+
+export enum TodoTaskPriorities {
+   Low,
+   Middle,
+   Hi,
+   Urgently,
+   Later,
+}
+
+export type TaskType = {
    description: string
    title: string
    completed: boolean
-   status: number
-   priority: number
+   status: TaskStatuses
+   priority: TodoTaskPriorities
    startDate: string
    deadline: string
    id: string

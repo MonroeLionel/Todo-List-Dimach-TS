@@ -1,10 +1,9 @@
 import {v1} from "uuid";
-import {FilterValueType, TodoListType} from "../App";
 import {
    addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC,
    ChengeTodolistFilterActionType,
-   ChengeTodolistTitleActionType,
-   removeTodolistAC,
+   ChengeTodolistTitleActionType, FilterValueType,
+   removeTodolistAC, TodolistDomainType,
    todolistsReducer
 } from "./todolist-reducer";
 
@@ -13,9 +12,9 @@ test('correct todolist chould be remove', () => {
    let todoListId1 = v1()
    let todoListId2 = v1()
 
-   const startState: Array<TodoListType> = [
-      {id: todoListId1, title: `What to learn`, filter: `active`},
-      {id: todoListId2, title: `What to buy`, filter: `completed`},
+   const startState: Array<TodolistDomainType> = [
+      {id: todoListId1, title: `What to learn`, filter: `active`, order: 0, addedDate: ''},
+      {id: todoListId2, title: `What to buy`, filter: `completed`, order: 0, addedDate: ''},
    ]
 
    /* const endState = todolistsReducer(startState, {type: "REMOVE-TODOLIST", id: todoListId1})*/
@@ -32,9 +31,9 @@ test('correct todolist should be added', () => {
 
    let newTodoListTitle = "New Todolist"
 
-   const startState: Array<TodoListType> = [
-      {id: todoListId1, title: `What to learn`, filter: `active`},
-      {id: todoListId2, title: `What to buy`, filter: `completed`},
+   const startState: Array<TodolistDomainType> = [
+      {id: todoListId1, title: `What to learn`, filter: `active`, order: 0, addedDate: ''},
+      {id: todoListId2, title: `What to buy`, filter: `completed`, order: 0, addedDate: ''},
    ]
 
    const endState = todolistsReducer(startState, addTodolistAC(newTodoListTitle))
@@ -51,9 +50,9 @@ test('correct todolist should change its name', () => {
 
    let newTodoListTitle = "New Todolist"
 
-   const startState: Array<TodoListType> = [
-      {id: todoListId1, title: `What to learn`, filter: `active`},
-      {id: todoListId2, title: `What to buy`, filter: `completed`},
+   const startState: Array<TodolistDomainType> = [
+      {id: todoListId1, title: `What to learn`, filter: `active`, order: 0, addedDate: ''},
+      {id: todoListId2, title: `What to buy`, filter: `completed`, order: 0, addedDate: ''},
    ]
 
    const action: ChengeTodolistTitleActionType = {
@@ -75,9 +74,9 @@ test('correct filter of todolist could be change', () => {
 
    let newFilter: FilterValueType = "completed";
 
-   const startState: Array<TodoListType> = [
-      {id: todoListId1, title: `What to learn`, filter: `active`},
-      {id: todoListId2, title: `What to buy`, filter: `completed`},
+   const startState: Array<TodolistDomainType> = [
+      {id: todoListId1, title: `What to learn`, filter: `active`, order: 0, addedDate: ''},
+      {id: todoListId2, title: `What to buy`, filter: `completed`, order: 0, addedDate: ''},
    ]
 
    const action: ChengeTodolistFilterActionType = {

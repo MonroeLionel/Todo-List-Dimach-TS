@@ -1,22 +1,85 @@
 import {TaskStateType} from "../App";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./task-reducer";
 import {addTodolistAC, removeTodolistAC} from "./todolist-reducer";
+import {TaskStatuses, TaskType, TodoTaskPriorities} from "../api/todolists-api";
 
-test("таска удалеа из массива", () => {
-
-
-   const startState: TaskStateType = {
+let startState: TaskStateType = {}
+beforeEach(() => {
+   startState = {
       "todoListId1": [
-         {id: "1", title: "HTML&CSS", isDone: true},
-         {id: "2", title: "JS", isDone: true},
-         {id: "3", title: "ReactJS", isDone: false},
+         {
+            id: "1", title: "HTML&CSS", status: TaskStatuses.Completed,
+            todoListId: "todoListId1",
+            startDate: '',
+            deadline: '',
+            addedDate: '',
+            order: 0,
+            priority: TodoTaskPriorities.Low,
+            completed: false,
+            description: '',
+         },
+         {
+            id: "2", title: "JS", status: TaskStatuses.Completed,
+            todoListId: "todoListId1",
+            startDate: '',
+            deadline: '',
+            addedDate: '',
+            order: 0,
+            priority: TodoTaskPriorities.Low,
+            completed: false,
+            description: '',
+         },
+         {
+            id: "3", title: "ReactJS", status: TaskStatuses.New,
+            todoListId: "todoListId1",
+            startDate: '',
+            deadline: '',
+            addedDate: '',
+            order: 0,
+            priority: TodoTaskPriorities.Low,
+            completed: false,
+            description: '',
+         },
       ],
       "todoListId2": [
-         {id: "1", title: "book", isDone: true},
-         {id: "2", title: "milk", isDone: true},
-         {id: "3", title: "tea", isDone: false},
+         {
+            id: "1", title: "book", status: TaskStatuses.Completed,
+            todoListId: "todoListId2",
+            startDate: '',
+            deadline: '',
+            addedDate: '',
+            order: 0,
+            priority: TodoTaskPriorities.Low,
+            completed: false,
+            description: '',
+         },
+         {
+            id: "2", title: "milk", status: TaskStatuses.Completed,
+            todoListId: "todoListId2",
+            startDate: '',
+            deadline: '',
+            addedDate: '',
+            order: 0,
+            priority: TodoTaskPriorities.Low,
+            completed: false,
+            description: '',
+         },
+         {
+            id: "3", title: "tea", status: TaskStatuses.New,
+            todoListId: "todoListId2",
+            startDate: '',
+            deadline: '',
+            addedDate: '',
+            order: 0,
+            priority: TodoTaskPriorities.Low,
+            completed: false,
+            description: '',
+         },
       ],
    }
+})
+test("таска удалеа из массива", () => {
+
 
    const action = removeTaskAC("todoListId2", "2")
 
@@ -32,19 +95,6 @@ test("таска удалеа из массива", () => {
 test("добавления таски", () => {
 
 
-   const startState: TaskStateType = {
-      "todoListId1": [
-         {id: "1", title: "HTML&CSS", isDone: true},
-         {id: "2", title: "JS", isDone: true},
-         {id: "3", title: "ReactJS", isDone: false},
-      ],
-      "todoListId2": [
-         {id: "1", title: "book", isDone: true},
-         {id: "2", title: "milk", isDone: true},
-         {id: "3", title: "tea", isDone: false},
-      ],
-   }
-
    const action = addTaskAC("todoListId2", "juce")
 
    const endState = tasksReducer(startState, action)
@@ -53,7 +103,7 @@ test("добавления таски", () => {
    expect(endState["todoListId2"].length).toBe(4)
    expect(endState["todoListId2"][0].id).toBeDefined()
    expect(endState["todoListId2"][0].title).toBe("juce")
-   expect(endState["todoListId2"][0].isDone).toBe(false)
+   expect(endState["todoListId2"][0].status).toBe(TaskStatuses.New)
    //ever как МАР или FILTER пробегается по каждому элементу массива
 })
 
@@ -61,25 +111,12 @@ test("добавления таски", () => {
 test("изменения статуса определенной таски", () => {
 
 
-   const startState: TaskStateType = {
-      "todoListId1": [
-         {id: "1", title: "HTML&CSS", isDone: false},
-         {id: "2", title: "JS", isDone: true},
-         {id: "3", title: "ReactJS", isDone: false},
-      ],
-      "todoListId2": [
-         {id: "1", title: "book", isDone: false},
-         {id: "2", title: "milk", isDone: true},
-         {id: "3", title: "tea", isDone: false},
-      ],
-   }
-
-   const action = changeTaskStatusAC("todoListId2", "2", false)
+   const action = changeTaskStatusAC("todoListId2", "2", TaskStatuses.New)
 
    const endState = tasksReducer(startState, action)
 
-   expect(endState["todoListId1"][1].isDone).toBe(true)
-   expect(endState["todoListId2"][1].isDone).toBe(false)
+   expect(endState["todoListId1"][1].status).toBe(TaskStatuses.Completed)
+   expect(endState["todoListId2"][1].status).toBe(TaskStatuses.New)
 
    //ever как МАР или FILTER пробегается по каждому элементу массива
 })
@@ -87,19 +124,6 @@ test("изменения статуса определенной таски", ()
 
 test("изменения названия таски", () => {
 
-
-   const startState: TaskStateType = {
-      "todoListId1": [
-         {id: "1", title: "HTML&CSS", isDone: false},
-         {id: "2", title: "JS", isDone: true},
-         {id: "3", title: "ReactJS", isDone: false},
-      ],
-      "todoListId2": [
-         {id: "1", title: "book", isDone: false},
-         {id: "2", title: "milk", isDone: true},
-         {id: "3", title: "tea", isDone: false},
-      ],
-   }
 
    const action = changeTaskTitleAC("todoListId2", "2", "Milkiway")
 
@@ -113,19 +137,6 @@ test("изменения названия таски", () => {
 
 test("добавляем туду лист", () => {
 
-
-   const startState: TaskStateType = {
-      "todoListId1": [
-         {id: "1", title: "HTML&CSS", isDone: false},
-         {id: "2", title: "JS", isDone: true},
-         {id: "3", title: "ReactJS", isDone: false},
-      ],
-      "todoListId2": [
-         {id: "1", title: "book", isDone: false},
-         {id: "2", title: "milk", isDone: true},
-         {id: "3", title: "tea", isDone: false},
-      ],
-   }
 
    const action = addTodolistAC("New TuduList")
    const endState = tasksReducer(startState, action)
@@ -144,19 +155,6 @@ test("добавляем туду лист", () => {
 
 test("удаляем тудулист", () => {
 
-
-   const startState: TaskStateType = {
-      "todoListId1": [
-         {id: "1", title: "HTML&CSS", isDone: false},
-         {id: "2", title: "JS", isDone: true},
-         {id: "3", title: "ReactJS", isDone: false},
-      ],
-      "todoListId2": [
-         {id: "1", title: "book", isDone: false},
-         {id: "2", title: "milk", isDone: true},
-         {id: "3", title: "tea", isDone: false},
-      ],
-   }
 
    const action = removeTodolistAC("todoListId2")
    const endState = tasksReducer(startState, action)
