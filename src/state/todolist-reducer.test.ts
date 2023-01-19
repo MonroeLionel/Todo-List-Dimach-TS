@@ -3,9 +3,23 @@ import {
    addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC,
    ChengeTodolistFilterActionType,
    ChengeTodolistTitleActionType, FilterValueType,
-   removeTodolistAC, TodolistDomainType,
+   removeTodolistAC, SetTodolistsAC, TodolistDomainType,
    todolistsReducer
 } from "./todolist-reducer";
+
+let todoListId1: string
+let todoListId2: string
+let startState: Array<TodolistDomainType> = []
+
+beforeEach(() => {
+
+   startState = [
+      {id: todoListId1, title: `What to learn`, filter: `active`, order: 0, addedDate: ''},
+      {id: todoListId2, title: `What to buy`, filter: `completed`, order: 0, addedDate: ''},
+   ]
+
+})
+
 
 test('correct todolist chould be remove', () => {
 
@@ -89,4 +103,12 @@ test('correct filter of todolist could be change', () => {
 
    expect(endState[0].filter).toBe("active")
    expect(endState[1].filter).toBe(newFilter)
+})
+
+test('todolist should be set to the state', () => {
+
+   const action = SetTodolistsAC(startState)
+   const endState = todolistsReducer([], action)
+
+   expect(endState.length).toBe(2)
 })

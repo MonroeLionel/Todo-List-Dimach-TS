@@ -11,7 +11,7 @@ const settings = {
 
    withCredentials: true,
    headers: {
-      "API-KEY": "3d23276c-ddcb-4cb6-9813-101eaaffca9c"
+      "API-KEY": "a6eff611-9d33-4548-995c-87ef2f0670d5"
    }
 }
 

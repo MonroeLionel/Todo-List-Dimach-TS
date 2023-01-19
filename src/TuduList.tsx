@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import {AddItemForm} from "./AddIdemForm";
 import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@mui/material";
@@ -6,6 +6,8 @@ import {Delete} from "@mui/icons-material";
 import {Task} from "./Task";
 import {TaskStatuses, TaskType} from "./api/todolists-api";
 import {FilterValueType} from "./state/todolist-reducer";
+import {useDispatch} from "react-redux";
+import {fetchTasksTC} from "./state/task-reducer";
 
 export type TuduListPropsType = {
    title: string
@@ -25,6 +27,13 @@ export type TuduListPropsType = {
 
 export const TuduList = React.memo(function (props: TuduListPropsType) {
    console.log("TuduList")
+   const dispatch = useDispatch()
+   useEffect(() => {
+
+      // @ts-ignore
+      dispatch(fetchTasksTC(props.tlID))
+   }, [])
+
    const filterAll = useCallback(() => {
       props.changeFilter(`all`, props.tlID)
    }, [props.changeFilter, props.tlID])

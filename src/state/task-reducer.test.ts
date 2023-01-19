@@ -1,6 +1,6 @@
 import {TaskStateType} from "../App";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./task-reducer";
-import {addTodolistAC, removeTodolistAC} from "./todolist-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTasksAC, tasksReducer} from "./task-reducer";
+import {addTodolistAC, removeTodolistAC, SetTodolistsAC} from "./todolist-reducer";
 import {TaskStatuses, TaskType, TodoTaskPriorities} from "../api/todolists-api";
 
 let startState: TaskStateType = {}
@@ -165,4 +165,21 @@ test("удаляем тудулист", () => {
    expect(endState["todoListId2"]).toBeUndefined()
 
    //ever как МАР или FILTER пробегается по каждому элементу массива
+})
+
+
+test("пустые массивы должны быть добавленны когда мы сетаем туду листы", () => {
+
+   const action = setTasksAC(startState["todoListId1"], "todoListId1")
+
+   const endState = tasksReducer({
+      "todoListId2": [],
+      "todoListId1": []
+
+   }, action)
+
+   expect(endState["todoListId1"].length).toBe(3)
+   expect(endState["todoListId2"].length).toBe(0)
+
+
 })
