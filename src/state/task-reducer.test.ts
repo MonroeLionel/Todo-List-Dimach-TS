@@ -15,7 +15,7 @@ beforeEach(() => {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
          {
@@ -26,7 +26,7 @@ beforeEach(() => {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
          {
@@ -37,7 +37,7 @@ beforeEach(() => {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
       ],
@@ -50,7 +50,7 @@ beforeEach(() => {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
          {
@@ -61,7 +61,7 @@ beforeEach(() => {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
          {
@@ -72,7 +72,7 @@ beforeEach(() => {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
       ],
@@ -106,7 +106,6 @@ test("добавления таски", () => {
       order: 0,
       priority: 0,
       startDate: "",
-      completed: false,
       id: "id exists",
    })
 
@@ -124,7 +123,7 @@ test("добавления таски", () => {
 test("изменения статуса определенной таски", () => {
 
 
-   const action = updateTaskAC("todoListId2", "2", TaskStatuses.New)
+   const action = updateTaskAC("todoListId2", "2", {status: TaskStatuses.New})
 
    const endState = tasksReducer(startState, action)
 
@@ -151,7 +150,12 @@ test("изменения названия таски", () => {
 test("добавляем туду лист", () => {
 
 
-   const action = addTodolistAC("New TuduList")
+   const action = addTodolistAC({
+      id: "qweqwe",
+      title: "New TuduList",
+      order: 0,
+      addedDate: ""
+   })
    const endState = tasksReducer(startState, action)
 
    const keys = Object.keys(endState)
