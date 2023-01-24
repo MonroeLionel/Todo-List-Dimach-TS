@@ -12,18 +12,30 @@ import {
    removeTodolistAC,
    todolistsReducer
 } from "./state/todolist-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/task-reducer";
+import {addTaskAC, updateTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/task-reducer";
 import {TaskStatuses, TodoTaskPriorities} from "./api/todolists-api";
 
 function AppWithReducer() {
 
    function changeTaskStatus(taskId: string, status: TaskStatuses, todoListId: string) {
-      const action = changeTaskStatusAC(todoListId, taskId, status)
+      const action = updateTaskAC(todoListId, taskId, {status})
       dispatchTaskReducer(action)
    }
 
    function addTask(title: string, todoListId: string) {
-      const action = addTaskAC(todoListId, title)
+      const action = addTaskAC({
+         todoListId: todoListId,
+         title: title,
+         status: TaskStatuses.New,
+         addedDate: "",
+         deadline: "",
+         description: "",
+         order: 0,
+         priority: 0,
+         startDate: "",
+
+         id: "id exists",
+      })
       dispatchTaskReducer(action)
    }
 
@@ -34,7 +46,7 @@ function AppWithReducer() {
    }
 
    function changeTaskTitleHandler(taskId: string, newValue: string, todoListId: string) {
-      const action = changeTaskTitleAC(todoListId, taskId, newValue)
+      const action = updateTaskAC(todoListId, taskId, {title: newValue})
       dispatchTaskReducer(action)
 
    }
@@ -51,7 +63,12 @@ function AppWithReducer() {
    }
 
    function addTodoList(title: string) {
-      const action = addTodolistAC(title)
+      const action = addTodolistAC({
+         id: v1(),
+         addedDate: "",
+         order: 0,
+         title: title
+      })
       dispatchTaskReducer(action)
 
       dispatchTodoListsReducer(action)
@@ -80,7 +97,6 @@ function AppWithReducer() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
             description: '',
          },
          {
@@ -91,7 +107,7 @@ function AppWithReducer() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
          {
@@ -102,7 +118,7 @@ function AppWithReducer() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
          {
@@ -113,7 +129,7 @@ function AppWithReducer() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          }
       ],
@@ -126,7 +142,7 @@ function AppWithReducer() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
          {
@@ -137,7 +153,7 @@ function AppWithReducer() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
       ],

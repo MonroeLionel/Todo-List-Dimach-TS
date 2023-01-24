@@ -1,7 +1,7 @@
 import {TaskStateType} from "../App";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, setTasksAC, tasksReducer} from "./task-reducer";
-import {addTodolistAC, removeTodolistAC, SetTodolistsAC} from "./todolist-reducer";
-import {TaskStatuses, TaskType, TodoTaskPriorities} from "../api/todolists-api";
+import {addTaskAC, updateTaskAC, changeTaskTitleAC, removeTaskAC, setTasksAC, tasksReducer} from "./task-reducer";
+import {addTodolistAC, removeTodolistAC} from "./todolist-reducer";
+import {TaskStatuses, TodoTaskPriorities} from "../api/todolists-api";
 
 let startState: TaskStateType = {}
 beforeEach(() => {
@@ -95,7 +95,20 @@ test("таска удалеа из массива", () => {
 test("добавления таски", () => {
 
 
-   const action = addTaskAC("todoListId2", "juce")
+   // const action = addTaskAC("todoListId2", "juce")
+   const action = addTaskAC({
+      todoListId: "todoListId2",
+      title: "juce",
+      status: TaskStatuses.New,
+      addedDate: "",
+      deadline: "",
+      description: "",
+      order: 0,
+      priority: 0,
+      startDate: "",
+      completed: false,
+      id: "id exists",
+   })
 
    const endState = tasksReducer(startState, action)
 
@@ -111,7 +124,7 @@ test("добавления таски", () => {
 test("изменения статуса определенной таски", () => {
 
 
-   const action = changeTaskStatusAC("todoListId2", "2", TaskStatuses.New)
+   const action = updateTaskAC("todoListId2", "2", TaskStatuses.New)
 
    const endState = tasksReducer(startState, action)
 

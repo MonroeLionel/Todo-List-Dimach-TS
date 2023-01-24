@@ -78,7 +78,7 @@ function App() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
          {
@@ -89,7 +89,7 @@ function App() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
          {
@@ -100,7 +100,7 @@ function App() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
          {
@@ -111,7 +111,7 @@ function App() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          }
       ],
@@ -124,7 +124,7 @@ function App() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+
             description: '',
          },
          {
@@ -135,7 +135,7 @@ function App() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            completed: false,
+            
             description: '',
          },
       ],
