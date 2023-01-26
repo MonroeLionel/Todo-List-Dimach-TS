@@ -222,7 +222,6 @@ export const UpdateTask = () => {
       todolistsApi.updateTask(todolistId, taskId, {
          title: title,
          description: description,
-         completed: completed,
          status: status,
          priority: priority,
          startDate: startDate,

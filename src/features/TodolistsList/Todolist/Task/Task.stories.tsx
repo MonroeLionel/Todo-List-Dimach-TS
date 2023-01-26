@@ -1,7 +1,7 @@
 import React from "react";
 import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
-import {TaskStatuses, TodoTaskPriorities} from "./api/todolists-api";
+import {TaskStatuses, TodoTaskPriorities} from "../../../../api/todolists-api";
 
 export default {
    title: 'Task component',
@@ -23,7 +23,6 @@ export const TaskBaseExample = () => {
            addedDate: '',
            order: 0,
            priority: TodoTaskPriorities.Low,
-           completed: false,
            description: '',
         }}
         changeTaskStatus={changeTaskStatuscallBack}
@@ -39,7 +38,6 @@ export const TaskBaseExample = () => {
            addedDate: '',
            order: 0,
            priority: TodoTaskPriorities.Low,
-           completed: false,
            description: '',
         }}
         changeTaskStatus={changeTaskStatuscallBack}

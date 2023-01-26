@@ -1,13 +1,13 @@
 import React, {useCallback, useEffect} from "react";
-import {AddItemForm} from "./AddIdemForm";
-import {EditableSpan} from "./EditableSpan";
+import {AddItemForm} from "../../../components/AddItemForm/AddIdemForm";
+import {EditableSpan} from "../../../components/EditableSpan/EditableSpan";
 import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {Task} from "./Task";
-import {TaskStatuses, TaskType} from "./api/todolists-api";
-import {FilterValueType} from "./state/todolist-reducer";
+import {Task} from "./Task/Task";
+import {TaskStatuses, TaskType} from "../../../api/todolists-api";
+import {FilterValueType} from "./todolist-reducer";
 import {useDispatch} from "react-redux";
-import {fetchTasksTC} from "./state/task-reducer";
+import {fetchTasksTC} from "./task-reducer";
 
 export type TuduListPropsType = {
    title: string
@@ -77,9 +77,6 @@ export const TuduList = React.memo(function (props: TuduListPropsType) {
         <h3>{props.title2}</h3>
         <AddItemForm addItem={addTask}/>
         <ul>
-           {/*MAP это метод массива который на основе каждого объекта в массиве создает*/}
-           {/*какой то другой элемент*/}
-           {/*на выходе мы получаем новый массив с этими новыми элементами*/}
            {props.tasks1.map(el => <Task
              tasks={el}
              changeTaskStatus={props.changeTaskStatus}

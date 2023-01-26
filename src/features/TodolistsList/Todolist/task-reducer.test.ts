@@ -1,7 +1,13 @@
-import {TaskStateType} from "../App";
-import {addTaskAC, updateTaskAC, changeTaskTitleAC, removeTaskAC, setTasksAC, tasksReducer} from "./task-reducer";
+import {TaskStateType} from "../../../trash/App";
+import {
+   addTaskAC,
+   updateTaskAC,
+   removeTaskAC,
+   setTasksAC,
+   tasksReducer,
+} from "./task-reducer";
 import {addTodolistAC, removeTodolistAC} from "./todolist-reducer";
-import {TaskStatuses, TodoTaskPriorities} from "../api/todolists-api";
+import {TaskStatuses, TodoTaskPriorities} from "../../../api/todolists-api";
 
 let startState: TaskStateType = {}
 beforeEach(() => {
@@ -137,7 +143,7 @@ test("изменения статуса определенной таски", ()
 test("изменения названия таски", () => {
 
 
-   const action = changeTaskTitleAC("todoListId2", "2", "Milkiway")
+   const action = updateTaskAC("todoListId2", "2", {title: "Milkiway"})
 
    const endState = tasksReducer(startState, action)
 

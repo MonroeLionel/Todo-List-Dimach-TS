@@ -1,12 +1,12 @@
 import {v1} from "uuid";
 import {
    addTodolistAC, changeTodolistFilterAC, changeTodolistTitleAC,
-   ChengeTodolistFilterActionType,
-   ChengeTodolistTitleActionType, FilterValueType,
+
+   FilterValueType,
    removeTodolistAC, SetTodolistsAC, TodolistDomainType,
    todolistsReducer
 } from "./todolist-reducer";
-import {TodoListType} from "../api/todolists-api";
+import {TodoListType} from "../../../api/todolists-api";
 
 let todoListId1: string
 let todoListId2: string
@@ -75,11 +75,6 @@ test('correct todolist should change its name', () => {
       {id: todoListId2, title: `What to buy`, filter: `completed`, order: 0, addedDate: ''},
    ]
 
-   const action: ChengeTodolistTitleActionType = {
-      type: "CHANGE-TODOLIST-TITLE",
-      id: todoListId2,
-      title: newTodoListTitle
-   }
 
    const endState = todolistsReducer(startState, changeTodolistTitleAC(newTodoListTitle, todoListId2))
 
@@ -99,11 +94,6 @@ test('correct filter of todolist could be change', () => {
       {id: todoListId2, title: `What to buy`, filter: `completed`, order: 0, addedDate: ''},
    ]
 
-   const action: ChengeTodolistFilterActionType = {
-      type: "CHANGE-TODOLIST-FILTER",
-      id: todoListId2,
-      filter: newFilter
-   }
 
    const endState = todolistsReducer(startState, changeTodolistFilterAC(newFilter, todoListId2))
 

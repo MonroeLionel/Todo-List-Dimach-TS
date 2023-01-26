@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './trash/App';
 import * as serviceWorker from './serviceWorker';
-import AppWithReducer from "./AppWithReducers";
-import AppWithRedux from "./AppWithRedux";
+import AppWithReducer from "./trash/AppWithReducers";
+import AppWithRedux from "./app/AppWithRedux";
 import {Provider} from "react-redux";
-import {store} from "./state/store";
+import {store} from "./app/store";
 
 ReactDOM.render(
   //  <Counter/>

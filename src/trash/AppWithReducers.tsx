@@ -1,8 +1,8 @@
 import React, {useReducer, useState} from 'react';
-import './App.css';
-import {TuduList} from "./TuduList";
+import '../app/App.css';
+import {TuduList} from "../features/TodolistsList/Todolist/TuduList";
 import {v1} from "uuid";
-import {AddItemForm} from "./AddIdemForm";
+import {AddItemForm} from "../components/AddItemForm/AddIdemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
 import {
@@ -11,9 +11,14 @@ import {
    changeTodolistTitleAC, FilterValueType,
    removeTodolistAC,
    todolistsReducer
-} from "./state/todolist-reducer";
-import {addTaskAC, updateTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/task-reducer";
-import {TaskStatuses, TodoTaskPriorities} from "./api/todolists-api";
+} from "../features/TodolistsList/Todolist/todolist-reducer";
+import {
+   addTaskAC,
+   updateTaskAC,
+   removeTaskAC,
+   tasksReducer
+} from "../features/TodolistsList/Todolist/task-reducer";
+import {TaskStatuses, TodoTaskPriorities} from "../api/todolists-api";
 
 function AppWithReducer() {
 

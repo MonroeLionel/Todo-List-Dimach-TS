@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
-import './App.css';
-import {TuduList} from "./TuduList";
+import '../app/App.css';
+import {TuduList} from "../features/TodolistsList/Todolist/TuduList";
 import {v1} from "uuid";
-import {AddItemForm} from "./AddIdemForm";
+import {AddItemForm} from "../components/AddItemForm/AddIdemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
-import {TaskStatuses, TaskType, TodoTaskPriorities} from "./api/todolists-api";
-import {FilterValueType, TodolistDomainType} from "./state/todolist-reducer";
+import {TaskStatuses, TaskType, TodoTaskPriorities} from "../api/todolists-api";
+import {FilterValueType, TodolistDomainType} from "../features/TodolistsList/Todolist/todolist-reducer";
 
 
 export type TaskStateType = {
@@ -135,7 +135,7 @@ function App() {
             addedDate: '',
             order: 0,
             priority: TodoTaskPriorities.Low,
-            
+
             description: '',
          },
       ],
