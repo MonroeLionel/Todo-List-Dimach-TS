@@ -1,6 +1,7 @@
 import {v1} from "uuid";
 import {todolistsApi, TodoListType} from "../../../api/todolists-api";
 import {Dispatch} from "redux";
+import {RequestStatusType, setStatusAC, setStatusActionType} from "../../../app/app-reducer";
 
 
 export let todoListId1 = v1()
@@ -14,7 +15,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
          return state.filter(tl => tl.id != action.id)
       }
       case "ADD-TODOLIST": {
-         return [{...action.todolist, filter: "all"}, ...state]
+         return [{...action.todolist, filter: "all", entityStatus: "idle"}, ...state]
       }
       case "CHANGE-TODOLIST-TITLE": {
          return state.map(tl => tl.id === action.id ? {...tl, title: action.title} : tl)
@@ -23,7 +24,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
          return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl)
       }
       case "SET-TODOLISTS": {
-         return action.todolists.map(tl => ({...tl, filter: "all"}))
+         return action.todolists.map(tl => ({...tl, filter: "all", entityStatus: "idle"}))
       }
       default:
          return state
@@ -49,9 +50,11 @@ export const SetTodolistsAC = (todolists: Array<TodoListType>) => {
 //thunk
 export const fetchTodolistsTC = () => {
    return (dispatch: Dispatch<ActionType>) => {
+      dispatch(setStatusAC("loading"))
       todolistsApi.getTodolists()
         .then((res) => {
            dispatch(SetTodolistsAC(res.data))
+           dispatch(setStatusAC("idle"))
         })
    }
 }
@@ -65,9 +68,11 @@ export const removeTodolistsTC = (todolistId: string) => {
 }
 export const addTodolistsTC = (title: string) => {
    return (dispatch: Dispatch<ActionType>) => {
+      dispatch(setStatusAC("loading"))
       todolistsApi.createTodolists(title)
         .then((res) => {
            dispatch(addTodolistAC(res.data.data.item))
+           dispatch(setStatusAC("succeed"))
         })
    }
 }
@@ -84,6 +89,7 @@ export const changeTodolistTitleTC = (title: string, id: string) => {
 export type FilterValueType = `all` | `completed` | `active`
 export type TodolistDomainType = TodoListType & {
    filter: FilterValueType
+   entityStatus: RequestStatusType
 }
 
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
@@ -97,3 +103,4 @@ type ActionType =
   | ReturnType<typeof changeTodolistTitleAC>
   | ReturnType<typeof changeTodolistFilterAC>
   | SetTodolistsActionType
+  | setStatusActionType

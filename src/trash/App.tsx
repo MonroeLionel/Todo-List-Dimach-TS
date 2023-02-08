@@ -13,7 +13,7 @@ export type TaskStateType = {
    [key: string]: Array<TaskType>
 }
 
-function App() {
+function AppWithRedux() {
 
    function changeTaskStatus(taskId: string, status: TaskStatuses, todoListId: string) {
       let task = tasksObj[todoListId].find((t) => t.id === taskId)
@@ -231,4 +231,4 @@ function App() {
    }
 }
 
-export default App;
+export default AppWithRedux;

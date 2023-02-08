@@ -24,31 +24,31 @@ export const TodolistsList: React.FC = () => {
 
    useEffect(() => {
 
-      // @ts-ignore
+
       dispatch(fetchTodolistsTC())
    }, [])
 
    const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses, todoListId: string) => {
       const thunk = updateTaskTC(taskId, {status}, todoListId)
-      // @ts-ignore
+
       dispatch(thunk)
    }, [dispatch])
 
    const addTask = useCallback((title: string, todoListId: string) => {
       const thunk = addTaskTC(todoListId, title)
-      // @ts-ignore
+
       dispatch(thunk)
    }, [dispatch])
 
    const removeTask = useCallback((todoListId: string, taskId: string) => {
       const thunk = removeTaskTC(todoListId, taskId)
-      // @ts-ignore
+
       dispatch(thunk)
    }, [dispatch])
 
    const changeTaskTitleHandler = useCallback((taskId: string, newValue: string, todoListId: string) => {
       const thunk = updateTaskTC(taskId, {title: newValue}, todoListId)
-      // @ts-ignore
+
       dispatch(thunk)
 
    }, [dispatch])
@@ -66,13 +66,13 @@ export const TodolistsList: React.FC = () => {
 
    const addTodoList = useCallback((title: string) => {
       const thunk = addTodolistsTC(title)
-      // @ts-ignore
+
       dispatch(thunk)
    }, [dispatch])
 
    const ChangeTuduListTitle = useCallback((newTitle: string, id: string) => {
       const thunk = changeTodolistTitleTC(newTitle, id)
-      // @ts-ignore
+
       dispatch(thunk)
    }, [dispatch])
 
