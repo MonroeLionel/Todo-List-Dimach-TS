@@ -10,6 +10,7 @@ import {
 import {Dispatch} from "redux";
 import {AppRootState} from "../../../app/store";
 import {setAppErrorAC, setErrorActionType, setAppStatusAC, setStatusActionType} from "../../../app/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../../utils/error-utilst";
 
 
 const initialState: TaskStateType = {}
@@ -104,13 +105,12 @@ export const addTaskTC = (todoListId: string, title: string) => {
               dispatch(action)
               dispatch(setAppStatusAC("succeed"))
            } else {
-              if (res.data.messages.length) {
-                 dispatch(setAppErrorAC(res.data.messages[0]))
-              } else {
-                 dispatch(setAppErrorAC("sum error"))
-              }
+              handleServerAppError(res.data, dispatch)
            }
            dispatch(setAppStatusAC("failed"))
+        })
+        .catch((error) => {
+           handleServerNetworkError(error, dispatch)
         })
    }
 }
@@ -137,8 +137,18 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
       }
       todolistsApi.updateTask(todoListId, taskId, apiModel)
         .then((res) => {
-           const action = updateTaskAC(todoListId, taskId, domainModel)
-           dispatch(action)
+           if (res.data.resultCode === 0) {
+              const action = updateTaskAC(todoListId, taskId, domainModel)
+              dispatch(action)
+           } else {
+              handleServerAppError(res.data, dispatch)
+
+           }
+
+        })
+        .catch((error) => {
+           handleServerNetworkError(error, dispatch)
+
         })
    }
 }
