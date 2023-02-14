@@ -1,7 +1,8 @@
 import {v1} from "uuid";
 import {todolistsApi, TodoListType} from "../../../api/todolists-api";
 import {Dispatch} from "redux";
-import {RequestStatusType, setAppStatusAC, setStatusActionType} from "../../../app/app-reducer";
+import {RequestStatusType, setAppStatusAC, setErrorActionType, setStatusActionType} from "../../../app/app-reducer";
+import {handleServerNetworkError} from "../../../utils/error-utilst";
 
 
 export let todoListId1 = v1()
@@ -74,6 +75,9 @@ export const removeTodolistsTC = (todolistId: string) => {
            dispatch(removeTodolistAC(todolistId))
            dispatch(setAppStatusAC("succeed"))
         })
+        .catch((error) => {
+           handleServerNetworkError(error, dispatch)
+        })
    }
 }
 export const addTodolistsTC = (title: string) => {
@@ -115,3 +119,4 @@ type ActionType =
   | SetTodolistsActionType
   | setStatusActionType
   | ReturnType<typeof chaneTodolistEntityStatusAC>
+  | setErrorActionType

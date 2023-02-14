@@ -1,4 +1,5 @@
 import axios from "axios";
+import {number} from "prop-types";
 
 const settings = {
 
@@ -48,7 +49,22 @@ export const todolistsApi = {
       return promise
    },
 }
-
+export type LoginParamsType = {
+   email: string
+   password: string
+   rememberMe: boolean
+   captcha?: string
+}
+export const authAPI = {
+   login(data: LoginParamsType) {
+      const promise = instance.post<ResponseType<{ userId?: number }>>(`auth/login`, data)
+      return promise
+   },
+   me() {
+      const promise = instance.get<ResponseType<{ id: number, email: string, login: string }>>(`auth/me`)
+      return promise
+   }
+}
 // type
 
 export type TodoListType = {

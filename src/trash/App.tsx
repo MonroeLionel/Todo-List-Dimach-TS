@@ -156,6 +156,7 @@ function AppWithRedux() {
          title: title,
          addedDate: '',
          order: 0,
+         entityStatus: "idle"
       }
       setTodoList([newtodoList, ...todoList])
       setTasks({...tasksObj, [newtodoList.id]: []})
