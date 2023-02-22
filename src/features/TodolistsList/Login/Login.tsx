@@ -39,7 +39,7 @@ export const Login = () => {
       onSubmit: values => {
          // @ts-ignore
          dispatch(loginTC(values))
-         alert(JSON.stringify(values))
+         // alert(JSON.stringify(values))
       }
    })
 

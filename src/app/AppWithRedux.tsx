@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {
    AppBar,
@@ -19,6 +19,7 @@ import {AppRootState} from "./store";
 import {initializedAppTC, RequestStatusType} from "./app-reducer";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Login} from "../features/TodolistsList/Login/Login";
+import {logoutTC} from "../features/TodolistsList/Login/auth-reducer";
 
 
 export type TaskStateType = {
@@ -26,12 +27,17 @@ export type TaskStateType = {
 }
 
 function AppWithRedux() {
+   const isLoggedIn = useSelector<AppRootState, boolean>(state => state.auth.isLoggedIn)
+
    const dispatch = useDispatch()
    useEffect(() => {
       // @ts-ignore
       dispatch(initializedAppTC())
    }, [])
-
+   const logoutHandler = useCallback(() => {
+      // @ts-ignore
+      return dispatch(logoutTC());
+   }, [])
 
    const status = useSelector<AppRootState, RequestStatusType>((state) => state.app.status)
    const initialized = useSelector<AppRootState, boolean>((state) => state.app.isInitialized)
@@ -40,6 +46,8 @@ function AppWithRedux() {
          <CircularProgress/>
       </div>
    }
+
+
    return (
      <BrowserRouter>
         <div className="App">
@@ -50,7 +58,7 @@ function AppWithRedux() {
                  <Typography variant={"h6"}>
                     News
                  </Typography>
-                 <Button color={"inherit"}>Login</Button>
+                 {isLoggedIn && <Button onClick={logoutHandler} color={"inherit"}>Log out</Button>}
               </Toolbar>
               {status === "loading" && <LinearProgress/>}
            </AppBar>

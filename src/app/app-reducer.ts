@@ -35,7 +35,7 @@ export type InitialStateType = {
    isInitialized: boolean
 }
 
-export const initializedAppTC = (dispatch: Dispatch<ActionType>) => {
+export const initializedAppTC = () => (dispatch: Dispatch<ActionType>) => {
    authAPI.me()
      .then(res => {
         if (res.data.resultCode === 0) {
